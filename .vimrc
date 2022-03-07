@@ -1,4 +1,4 @@
-" set to 1, nvim will open the preview window after entering the markdown buffer
+"set to 1, nvim will open the preview window after entering the markdown buffer
 " default: 0
 let g:mkdp_auto_start = 0
 
@@ -121,6 +121,7 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'majutsushi/tagbar'
 "Plugin pour color scheme
+Plugin 'dylanaraps/wal.vim'
 Plugin 'morhetz/gruvbox'
 Plugin 'tomasr/molokai'
 Plugin 'arcticicestudio/nord-vim'
@@ -136,6 +137,8 @@ Plugin 'mg979/vim-visual-multi'
 " Plugin pour Ocaml
 Plugin 'the-lambda-church/merlin'
 Plugin 'rgrinberg/vim-ocaml'
+" Plugin pour Q#
+Plugin 'gootorov/q-sharp.vim'
 
 call vundle#end()
 filetype plugin indent on
@@ -152,12 +155,6 @@ set nu
 set rnu
 set cursorline
 
-
-" Des bindings pour pouvoir faire monter et descendre des blocs dans un
-" fichier 
-
-
-"packadd! vimspector
 
 hi CursorLine cterm = NONE
 hi CursorLineNR cterm = NONE ctermbg = black
@@ -179,10 +176,20 @@ let g:nord_cursor_line_number_background = 1
 
 colorscheme dracula
 set background=dark
+
 "color torte
 "industry, murphy, torte	
-"
 
 map <F5> :NERDTreeToggle<CR>
 nmap <F8> :TagbarToggle<CR>
+map <F9> :call Launch_cpp()<CR>
+" Config pour le Pssembly
+augroup filetypedetect
+au BufNewFile,BufRead *.pss setf pssembly
+augroup END
 
+
+" Template pour c++
+"
+au BufNewFile *.cpp 0r ~/.vim/templates/skeleton.cpp
+set list listchars=nbsp:⎵,tab:»\ 
