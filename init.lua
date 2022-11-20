@@ -8,11 +8,11 @@ set sw=2
 set nu
 set rnu
 set cursorline
+autocmd BufNewFile  *.cpp	0r ~/.config/nvim/template/cpp_compet.cpp
 set termguicolors
 hi CursorLine cterm = NONE
 hi CursorLineNR cterm = NONE ctermbg = black
 colorscheme dracula
-set list listchars=nbsp:⎵,tab:»\ 
 tnoremap <Esc> <C-\><C-n>
 ]])
 
@@ -32,6 +32,9 @@ function map(mode, lhs, rhs, opts)
     vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
+function remove_nbsp()
+	vim.cmd("%s/\\%u00a0/ /g")
+end
 
 function beast_c(x)
 	local file_name = vim.fn.expand("%")
@@ -68,9 +71,12 @@ function all_mighty_one()
 	print(s)
 end
 
-
+--require('telescope').load_extension('find_template')
+--local temp = require('template')
+--temp.temp_dir='~/.config/nvim/template'
 
 map('n', '<F8>', ':lua all_mighty_one()<CR>', {})
+map('n', '<F3>', ':lua remove_nbsp()<CR>', {})
 
 return require('packer').startup(function(use)
   use {'wbthomason/packer.nvim'}
@@ -82,5 +88,12 @@ return require('packer').startup(function(use)
 	use {'morhetz/gruvbox'}
 	use {'tomasr/molokai'}
 	use {'jonathanfilip/vim-lucius'}
+	use {'xuhdev/vim-latex-live-preview'}
+	use {'glepnir/template.nvim'}
+	use {
+		'nvim-telescope/telescope.nvim', tag = '0.1.0',
+	-- or                            , branch = '0.1.x',
+		requires = { {'nvim-lua/plenary.nvim'} }
+	}
 end)
 
